@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+{% block content %}
+    <h3>Find Recipes</h3>
+    <form action="search" method="get" class="form-inline w-100">
+        <input type="search" name="query" class="form-control mr-2 w-75" placeholder="Search" {% if query is defined %}value="{{ query }}"{% endif %}>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+    {% for recipe in recipes %}
+        <div class="card mt-2 mb-2">
+            <div class="card-body">
+                <a href="recipe/{{ recipe['id'] }}">{{ recipe['title']}}</a>
+                <!-- <form method="get" action="search" class="float-right">
+                    <input type="hidden" name="recipe_id" value="{{ recipe['id'] }}">
+                    <input type="submit" class="btn btn-outline-dark" value="Add to Collection">
+                </form> -->
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

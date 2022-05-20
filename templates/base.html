@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="description" content="A custom recipe library and pantry manager.">
+        <meta name="keywords" content="Recipe, Pantry, Food, Nutrition">
+        <meta name="author" content="Ella Watts">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <!-- Bootstrap and block implementation based on tutorial from:
+          [1]"Flask Tutorial #3 - Adding Bootstrap and Template Inheritance", Techwithtim.net. [Online]. 
+          Available: https://www.techwithtim.net/tutorials/flask/adding-bootstrap/. [Accessed: 17- May- 2022].
+        -->
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <div class="navbar navbar-dark bg-dark mb-4">
+            <a class="navbar-brand" href="/">Pantry Manager</a>
+            {% if session['username'] is not defined %}
+                <a class="btn btn-outline-light" href="login">Login</a>
+            {% endif %}
+            {% if session['username'] is defined %}
+                <div>
+                    <a class="btn btn-outline-light" href="{{ url_for('logout') }}">Logout</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('library') }}">My Collection</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ url_for('search') }}">Search</a>
+                        </li>
+                    </ul>
+                </div>
+            {% endif %}
+            
+        </div>
+        
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="toast position-absolute mr-3" style="top: 20; right: 0;" data-delay="2000">
+                            <div class="toast-body">
+                                {{ message }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+
+        <!-- JavaScript for Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <!-- End JavaScript for Bootstrap -->
+
+        <script>
+            $('.toast').toast('show')
+        </script>
+    </body>
+</html>
